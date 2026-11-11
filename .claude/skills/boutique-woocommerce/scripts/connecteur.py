@@ -6,7 +6,7 @@ avant la phase 5 — puis l'efface à la clôture.
   python3 connecteur.py <fichier.mcpb> <projet>     phase 0 : ranger
   python3 connecteur.py --oublier <projet>          clôture : effacer
 
-Ranger crée ~/.config/claude-to-woocommerce/<projet>/ (droits 700) :
+Ranger crée ~/.config/boutique-woocommerce/<projet>/ (droits 700) :
   bundle/        le contenu du .mcpb (manifest compris, droits 600)
   acces.env      WP_API_URL, WP_API_USERNAME, WP_API_PASSWORD (droits 600)
   origine.txt    le chemin du .mcpb reçu (rappelé à la clôture)
@@ -16,7 +16,7 @@ applicatif. Aucun appel réseau : le site n'est pas contacté ici. Le dossier es
 hors du projet : il ne part ni dans un zip, ni dans un dépôt, ni chez le client.
 
 Ensuite, en phase 5 seulement :
-  ACCES=~/.config/claude-to-woocommerce/<projet> scripts/wp.sh <ability> '{…}'
+  ACCES=~/.config/boutique-woocommerce/<projet> scripts/wp.sh <ability> '{…}'
 
 Oublier (clôture, APRÈS c2woo_revoquer_acces()) supprime ce dossier entier
 — identifiants, bundle, identifiant de session MCP — et le fichier de session
@@ -30,7 +30,7 @@ import sys
 import json
 import zipfile
 
-RACINE = os.path.expanduser('~/.config/claude-to-woocommerce')
+RACINE = os.path.expanduser('~/.config/boutique-woocommerce')
 
 
 def dossier_du(projet):

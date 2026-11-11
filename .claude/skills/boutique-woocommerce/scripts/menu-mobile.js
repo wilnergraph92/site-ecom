@@ -1,4 +1,4 @@
-// Contrôle du menu mobile — claude-to-woocommerce (phases 3b, 4, 5 et porte 3).
+// Contrôle du menu mobile — boutique-woocommerce (phases 3b, 4, 5 et porte 3).
 //
 // Usage : régler le viewport (390 × 844, puis 768 × 1024, puis 1440 × 900), recharger la page,
 // puis passer le contenu de ce fichier, tel quel, à l'outil JavaScript du navigateur.

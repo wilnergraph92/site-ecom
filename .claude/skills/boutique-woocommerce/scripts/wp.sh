@@ -2,7 +2,7 @@
 # Appelle une "ability" Novamira en HTTP direct, sans installer le serveur MCP.
 #
 # Usage :  ACCES=<dossier-d-acces> scripts/wp.sh <ability> '<json des parametres>'
-# Exemple : ACCES=~/.config/claude-to-woocommerce/ma-boutique scripts/wp.sh novamira/execute-php '{"code":"return 1;"}'
+# Exemple : ACCES=~/.config/boutique-woocommerce/ma-boutique scripts/wp.sh novamira/execute-php '{"code":"return 1;"}'
 #
 # <dossier-d-acces> est créé par scripts/connecteur.py à partir du bundle .mcpb
 # fourni au brief : acces.env (droits 600) y porte WP_API_URL, WP_API_USERNAME,

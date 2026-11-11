@@ -1,9 +1,9 @@
 ---
-name: claude-to-woocommerce
+name: boutique-woocommerce
 description: "Construit une boutique WooCommerce sur mesure et l'installe sur le WordPress du client : maquette HTML locale, pages marchandes dessinées dans un WordPress local (l'atelier), thème bloc 100 % éditable, déploiement via l'extension Novamira, recette. À utiliser seulement quand WordPress ou WooCommerce est en jeu : créer, refondre ou moderniser une boutique WooCommerce, vendre sur un site WordPress, remplacer Storefront, Astra, Elementor ou un thème WooCommerce du commerce, dessiner le catalogue, la fiche produit, le panier ou la commande d'une boutique WooCommerce. Se déclenche immédiatement quand un message commence par « Détail de la boutique : » avec une image et un connecteur Novamira .mcpb joints. Ne pas utiliser pour un e-commerce sur une autre plateforme ou en code (Shopify, PrestaShop, Wix, Magento, Next.js, React, Laravel, dépôt sans WordPress), ni pour une question générale sur le e-commerce. Site vitrine WordPress sans vente : claude-to-wordpress."
 ---
 
-# Claude to WooCommerce
+# Boutique WooCommerce
 
 ## Pourquoi cette méthode existe
 

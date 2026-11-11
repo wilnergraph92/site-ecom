@@ -12,7 +12,7 @@ Table des matières
 - [Le compte rendu de fin](#le-compte-rendu-de-fin)
 - [Hygiène de mesure](#hygiène-de-mesure)
 
-Dans tout ce document, `SKILL` désigne le dossier du skill, `PROJET` le dossier du projet et `ACCES` le dossier privé du connecteur (`~/.config/claude-to-woocommerce/<projet>`).
+Dans tout ce document, `SKILL` désigne le dossier du skill, `PROJET` le dossier du projet et `ACCES` le dossier privé du connecteur (`~/.config/boutique-woocommerce/<projet>`).
 
 ---
 
@@ -53,7 +53,7 @@ Le `.mcpb` de Novamira arrive avec le brief. On le range **tout de suite**, hors
 
 ```bash
 python3 SKILL/scripts/connecteur.py "<chemin du .mcpb>" <slug-du-projet>
-# → ~/.config/claude-to-woocommerce/<slug>/ (700) : bundle/, acces.env (600)
+# → ~/.config/boutique-woocommerce/<slug>/ (700) : bundle/, acces.env (600)
 # n'affiche que l'adresse du site et l'identifiant — jamais le mot de passe applicatif
 ```
 
@@ -621,7 +621,7 @@ Relancer l'atelier **depuis zéro** (arrêter le processus, puis `atelier.sh`) :
 
 ### Prérequis · L'accès au site
 
-Le connecteur rangé en phase 0 (sinon : le demander maintenant, puis `connecteur.py`). Quatre commandes, toutes avec `ACCES=~/.config/claude-to-woocommerce/<slug>` ; aucune n'affiche un secret :
+Le connecteur rangé en phase 0 (sinon : le demander maintenant, puis `connecteur.py`). Quatre commandes, toutes avec `ACCES=~/.config/boutique-woocommerce/<slug>` ; aucune n'affiche un secret :
 
 | Commande | Rôle |
 |---|---|
@@ -639,7 +639,7 @@ Neuf opérations, de 0 à 8, dans cet ordre.
 **a) État des lieux — lecture seule.** C'est le seul appel autorisé avant le feu vert :
 
 ```bash
-export ACCES=~/.config/claude-to-woocommerce/<slug>
+export ACCES=~/.config/boutique-woocommerce/<slug>
 SKILL/scripts/envoyer.sh 'return c2woo_etat_des_lieux();'
 # → {"site":"https://…/","nom":"…","wordpress":"7.1.2","langue":"en_US","theme":"twentytwentyfive","woocommerce":null,
 #    "extensions":{"novamira":"1.4.0"},"pages":2,"articles":1,"produits":0,"commandes":0,"site_vierge":true}
@@ -908,7 +908,7 @@ SKILL/scripts/envoyer.sh 'return c2woo_revoquer_acces();'
 
 ```bash
 python3 SKILL/scripts/connecteur.py --oublier <slug>
-# → supprime ~/.config/claude-to-woocommerce/<slug>/ (acces.env, bundle, session MCP)
+# → supprime ~/.config/boutique-woocommerce/<slug>/ (acces.env, bundle, session MCP)
 ```
 
    Le `.mcpb` reçu au brief n'est pas supprimé (c'est un fichier de l'utilisateur) : le script en rappelle le chemin, et le compte rendu le signale.

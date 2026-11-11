@@ -41,7 +41,7 @@
  *   c2woo_revoquer_acces()              révoque le mot de passe d'application de
  *                                       l'appel en cours — TOUJOURS le dernier appel
  *
- * @package claude-to-woocommerce
+ * @package boutique-woocommerce
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
