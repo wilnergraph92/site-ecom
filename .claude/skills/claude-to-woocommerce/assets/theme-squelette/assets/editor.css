@@ -1,0 +1,62 @@
+/* ==========================================================================
+   Corrections propres à l'éditeur de blocs — chargée par add_editor_style().
+   Ne touche jamais au rendu du site : uniquement le canevas de Gutenberg.
+
+   Pourquoi ce fichier existe : Gutenberg impose « position: relative » à
+   chaque bloc pour y ancrer ses barres d'outils. Toute couche que la
+   maquette sort du flux (photo de héros en fond, marqueur flottant) y
+   retombe, vole la place au contenu, et les colonnes s'effondrent jusqu'au
+   bouton rendu en texte vertical. La porte 5 de la recette vérifie ce
+   fichier.
+   ========================================================================== */
+
+/* 1 · Rétablir les couches sorties du flux — adapter les classes au projet :
+      photo de fond d'un héros ou d'un bandeau (figure.wp-block-image), texte
+      posé sur une image, étiquette ou bouton posés sur la carte produit. */
+/*
+.hero-photo, .bandeau-photo { position: absolute !important; inset: 0 !important; }
+.carte-etiquette, .carte-badge { position: absolute !important; }
+*/
+
+/* 1 bis · Un lien étendu à toute une carte (a::after { inset: … }) recouvre les
+      blocs qu'on veut sélectionner dans le canevas : le couper ici.
+.carte-lien a::after { display: none; } */
+
+/* 1 ter · Plusieurs variantes empilées (onglets, messages) : dans l'éditeur,
+      toutes visibles, pour que chacune reste éditable.
+.variante { opacity: 1 !important; visibility: visible !important; position: relative !important; } */
+
+/* 2 · Rien de collant dans le canevas : l'en-tête, la colonne d'achat de la
+      fiche produit et les filtres du catalogue recouvriraient les blocs
+      qu'on essaie de sélectionner. */
+.entete,
+.fiche-achat,
+.catalogue-filtres { position: relative !important; top: auto !important; }
+
+/* 3 · Le fond du site, sinon le canevas reste blanc hors des blocs. */
+.editor-styles-wrapper { background: var(--wp--preset--color--fond); }
+
+/* 4 · Les blocs WooCommerce affichent dans l'éditeur des aperçus de produits
+      fictifs : la grille doit y garder ses colonnes. */
+.editor-styles-wrapper .grille-produits.wc-block-product-template { display: grid; }
+
+/* 5 · Blocs WooCommerce composites (Collection de produits, Galerie) : dans
+      l'éditeur, leurs blocs internes sont emballés dans un conteneur
+      .block-editor-block-list__layout, qui devient le SEUL enfant de la grille
+      du thème — tout s'entasse dans la première colonne (vécu : « Vous aimerez
+      aussi » en colonnes de 87 px, titres lettre par lettre, boutons ronds).
+      La grille du composant passe sur ce conteneur. Toute grille posée sur un
+      bloc product-collection (et non sur son product-template) se reporte ici. */
+.editor-styles-wrapper .collection-associes { display: block; }
+.editor-styles-wrapper .collection-associes > .block-editor-block-list__layout {
+	display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; align-items: start; }
+.editor-styles-wrapper .grille-produits .wc-block-product { min-width: 0; }
+
+/* 6 · Galerie de la fiche : l'éditeur montre une dizaine de vignettes fictives ;
+      on borne leur colonne à la hauteur de la grande image. */
+.editor-styles-wrapper .fiche-galerie .wc-block-product-gallery-thumbnails__scrollable { max-height: 560px; overflow: hidden; }
+
+/* 7 · Le texte enrichi de l'éditeur impose white-space: pre-wrap : un titre ou
+      un nom de marque en « nowrap » passe sur deux lignes dans le canevas.
+      Rétablir ici chaque texte que la maquette garde sur une ligne, ex. :
+.editor-styles-wrapper .pied-marque { white-space: nowrap !important; } */

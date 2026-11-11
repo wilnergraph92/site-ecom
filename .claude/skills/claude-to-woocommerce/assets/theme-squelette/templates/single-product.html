@@ -1,0 +1,109 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","className":"fiche-produit","layout":{"type":"default"}} -->
+<main class="wp-block-group fiche-produit"><!-- wp:group {"className":"wrap fiche-haut","layout":{"type":"default"}} -->
+<div class="wp-block-group wrap fiche-haut"><!-- wp:woocommerce/breadcrumbs {"className":"fil-ariane"} /-->
+
+<!-- wp:woocommerce/store-notices /--></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"className":"wrap fiche","layout":{"type":"default"}} -->
+<div class="wp-block-group wrap fiche"><!-- wp:group {"className":"fiche-galerie","layout":{"type":"default"}} -->
+<div class="wp-block-group fiche-galerie"><!-- wp:woocommerce/product-gallery {"className":"galerie"} -->
+<div class="wp-block-woocommerce-product-gallery wc-block-product-gallery galerie"><!-- wp:woocommerce/product-gallery-thumbnails /-->
+
+<!-- wp:woocommerce/product-gallery-large-image -->
+<div class="wp-block-woocommerce-product-gallery-large-image wc-block-product-gallery-large-image__inner-blocks"><!-- wp:woocommerce/product-image {"showProductLink":false,"showSaleBadge":false,"aspectRatio":"4/5"} -->
+<div class="is-loading"></div>
+<!-- /wp:woocommerce/product-image -->
+
+<!-- wp:woocommerce/product-sale-badge {"align":"right"} /-->
+
+<!-- wp:woocommerce/product-gallery-large-image-next-previous -->
+<div class="wp-block-woocommerce-product-gallery-large-image-next-previous"></div>
+<!-- /wp:woocommerce/product-gallery-large-image-next-previous --></div>
+<!-- /wp:woocommerce/product-gallery-large-image --></div>
+<!-- /wp:woocommerce/product-gallery --></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"className":"fiche-achat","layout":{"type":"default"}} -->
+<div class="wp-block-group fiche-achat"><!-- wp:post-terms {"term":"product_cat","className":"fiche-surtitre"} /-->
+
+<!-- wp:post-title {"level":1,"className":"fiche-titre","__woocommerceNamespace":"woocommerce/product-query/product-title"} /-->
+
+<!-- wp:woocommerce/product-rating {"isDescendentOfSingleProductTemplate":true,"className":"fiche-note"} /-->
+
+<!-- wp:woocommerce/product-price {"isDescendentOfSingleProductTemplate":true,"className":"fiche-prix"} /-->
+
+<!-- wp:woocommerce/product-summary {"isDescendentOfSingleProductTemplate":true,"className":"fiche-resume"} /-->
+
+<!-- wp:woocommerce/add-to-cart-with-options {"className":"fiche-ajout"} /-->
+
+<!-- wp:group {"className":"fiche-reassurance","layout":{"type":"default"}} -->
+<div class="wp-block-group fiche-reassurance"><!-- wp:paragraph {"className":"promesse promesse-livraison"} -->
+<p class="promesse promesse-livraison">Livraison offerte dès 60 €</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"className":"promesse promesse-retours"} -->
+<p class="promesse promesse-retours">Retour possible sous 14 jours</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"className":"promesse promesse-paiement"} -->
+<p class="promesse promesse-paiement">Paiement sécurisé</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+
+<!-- wp:woocommerce/product-meta {"className":"fiche-meta"} -->
+<div class="wp-block-woocommerce-product-meta fiche-meta"><!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap"}} -->
+<div class="wp-block-group"><!-- wp:woocommerce/product-sku /-->
+
+<!-- wp:post-terms {"term":"product_cat","prefix":"Catégorie : "} /-->
+
+<!-- wp:post-terms {"term":"product_tag","prefix":"Étiquettes :"} /--></div>
+<!-- /wp:group --></div>
+<!-- /wp:woocommerce/product-meta --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"className":"wrap fiche-details","layout":{"type":"default"}} -->
+<div class="wp-block-group wrap fiche-details"><!-- wp:heading {"className":"fiche-details-titre"} -->
+<h2 class="wp-block-heading fiche-details-titre">Détails</h2>
+<!-- /wp:heading -->
+
+<!-- wp:group {"className":"fiche-details-texte","layout":{"type":"default"}} -->
+<div class="wp-block-group fiche-details-texte"><!-- wp:woocommerce/product-description {"className":"fiche-description"} /-->
+
+<!-- wp:woocommerce/product-specifications {"className":"fiche-caracteristiques"} /--></div>
+<!-- /wp:group --></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"className":"wrap fiche-associes","layout":{"type":"default"}} -->
+<div class="wp-block-group wrap fiche-associes"><!-- wp:woocommerce/product-collection {"queryId":2,"query":{"perPage":3,"pages":1,"offset":0,"postType":"product","order":"asc","orderBy":"title","search":"","exclude":[],"inherit":false,"taxQuery":{},"isProductCollectionBlock":true,"featured":false,"woocommerceOnSale":false,"woocommerceStockStatus":["instock","outofstock","onbackorder"],"woocommerceAttributes":[],"woocommerceHandPickedProducts":[],"filterable":false,"relatedBy":{"categories":true,"tags":true}},"tagName":"div","displayLayout":{"type":"flex","columns":3,"shrinkColumns":true},"dimensions":{"widthType":"fill"},"collection":"woocommerce/product-collection/related","hideControls":["inherit"],"queryContextIncludes":["collection"],"className":"collection-associes"} -->
+<div class="wp-block-woocommerce-product-collection collection-associes"><!-- wp:group {"className":"associes-tete","layout":{"type":"default"}} -->
+<div class="wp-block-group associes-tete"><!-- wp:heading {"className":"section-titre"} -->
+<h2 class="wp-block-heading section-titre">Vous aimerez aussi</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph {"className":"lien-fleche"} -->
+<p class="lien-fleche"><a href="/boutique/">Tous les produits</a></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+
+<!-- wp:woocommerce/product-template {"className":"grille-produits"} -->
+<!-- wp:woocommerce/product-image {"showSaleBadge":false,"imageSizing":"thumbnail","isDescendentOfQueryLoop":true,"className":"carte-image"} -->
+<!-- wp:woocommerce/product-sale-badge {"align":"right","className":"carte-badge"} /-->
+<!-- /wp:woocommerce/product-image -->
+
+<!-- wp:group {"className":"carte-infos","layout":{"type":"default"}} -->
+<div class="wp-block-group carte-infos"><!-- wp:post-title {"level":3,"isLink":true,"className":"carte-titre","__woocommerceNamespace":"woocommerce/product-collection/product-title"} /-->
+
+<!-- wp:woocommerce/product-price {"isDescendentOfQueryLoop":true,"className":"carte-prix"} /--></div>
+<!-- /wp:group -->
+
+<!-- wp:woocommerce/product-button {"isDescendentOfQueryLoop":true,"className":"carte-bouton"} /-->
+<!-- /wp:woocommerce/product-template --></div>
+<!-- /wp:woocommerce/product-collection --></div>
+<!-- /wp:group --></main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

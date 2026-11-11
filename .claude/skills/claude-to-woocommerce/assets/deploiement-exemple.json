@@ -1,0 +1,319 @@
+{
+  "marque": "Maison Lumen",
+  "theme": "maison-lumen",
+  "mise_en_ligne": false,
+  "extensions": [
+    "contact-form-7"
+  ],
+  "reglages": {
+    "slogan": "Bougies et parfums d’intérieur coulés à la main à Lyon",
+    "pays": "FR",
+    "ville": "Lyon",
+    "adresse": "12 rue des Artisans",
+    "code_postal": "69001",
+    "devise": "EUR",
+    "tva": 20,
+    "livraison": {
+      "zone": "France",
+      "forfait": 5.9,
+      "gratuite_des": 60,
+      "titre_forfait": "Livraison suivie",
+      "titre_gratuite": "Livraison offerte"
+    },
+    "paiements_test": [
+      "bacs"
+    ],
+    "ratio_vignettes": "4:5",
+    "placeholder_produit": "placeholder-4x5",
+    "inscription_mon_compte": true,
+    "permaliens": {
+      "produit": "produit",
+      "categorie": "categorie-produit",
+      "etiquette": "etiquette-produit"
+    },
+    "catalogue": {
+      "colonnes": 3,
+      "rangees": 4
+    }
+  },
+  "medias": {
+    "placeholder-4x5": "",
+    "hero": "Mains versant de la cire dans un contenant en verre",
+    "bandeau-atelier": "Atelier de coulage, étagères de bougies",
+    "logo": "Maison Lumen",
+    "favicon": "M"
+  },
+  "logo": "logo",
+  "favicon": "favicon",
+  "categories": [
+    {
+      "slug": "bougies",
+      "nom": "Bougies",
+      "description": "Cire végétale, mèche en coton, coulées à la main à Lyon."
+    },
+    {
+      "slug": "diffuseurs",
+      "nom": "Diffuseurs",
+      "description": "Des parfums d’intérieur qui durent toute une saison."
+    },
+    {
+      "slug": "coffrets",
+      "nom": "Coffrets",
+      "description": "Nos associations favorites, prêtes à offrir."
+    }
+  ],
+  "attributs": [
+    {
+      "slug": "taille",
+      "nom": "Taille",
+      "termes": [
+        "Petite",
+        "Moyenne",
+        "Grande"
+      ]
+    }
+  ],
+  "produits": [
+    {
+      "sku": "ML-B01",
+      "nom": "Bougie Figuier",
+      "type": "simple",
+      "prix": "32",
+      "categories": [
+        "bougies"
+      ],
+      "vedette": true,
+      "extrait": "Feuille de figuier, lait de figue, cèdre. 45 heures de combustion.",
+      "description": "Coulée à la main dans notre atelier lyonnais, la bougie Figuier associe la fraîcheur verte de la feuille à la douceur lactée du fruit.",
+      "complementaires": [
+        "ML-D01"
+      ]
+    },
+    {
+      "sku": "ML-B02",
+      "nom": "Bougie Ambre",
+      "type": "variable",
+      "categories": [
+        "bougies"
+      ],
+      "vedette": true,
+      "extrait": "Ambre, vanille bourbon, bois de santal. Trois tailles.",
+      "description": "Un accord chaud et enveloppant, pensé pour les longues soirées.",
+      "attributs": {
+        "taille": [
+          "Petite",
+          "Moyenne",
+          "Grande"
+        ]
+      },
+      "variations": [
+        {
+          "sku": "ML-B02-P",
+          "attributs": {
+            "taille": "Petite"
+          },
+          "prix": "22"
+        },
+        {
+          "sku": "ML-B02-M",
+          "attributs": {
+            "taille": "Moyenne"
+          },
+          "prix": "34"
+        },
+        {
+          "sku": "ML-B02-G",
+          "attributs": {
+            "taille": "Grande"
+          },
+          "prix": "48",
+          "stock": "outofstock"
+        }
+      ]
+    },
+    {
+      "sku": "ML-B03",
+      "nom": "Bougie Thé noir",
+      "type": "simple",
+      "prix": "32",
+      "promo": "25.60",
+      "categories": [
+        "bougies"
+      ],
+      "extrait": "Thé noir fumé, bergamote, cuir léger.",
+      "description": "Une note fumée, sèche et élégante."
+    },
+    {
+      "sku": "ML-B04",
+      "nom": "Bougie Mimosa",
+      "type": "simple",
+      "prix": "32",
+      "categories": [
+        "bougies"
+      ],
+      "stock": "outofstock",
+      "extrait": "Mimosa, amande, poudre de riz.",
+      "description": "Le parfum de février sur la Côte d’Azur."
+    },
+    {
+      "sku": "ML-D01",
+      "nom": "Diffuseur Figuier",
+      "type": "simple",
+      "prix": "46",
+      "categories": [
+        "diffuseurs"
+      ],
+      "vedette": true,
+      "extrait": "200 ml, bâtonnets en rotin naturel.",
+      "description": "Le parfum Figuier, en continu pendant trois mois."
+    },
+    {
+      "sku": "ML-D02",
+      "nom": "Diffuseur Ambre",
+      "type": "simple",
+      "prix": "46",
+      "categories": [
+        "diffuseurs"
+      ],
+      "extrait": "200 ml, bâtonnets en rotin naturel.",
+      "description": "Le parfum Ambre, en continu pendant trois mois."
+    },
+    {
+      "sku": "ML-D03",
+      "nom": "Recharge diffuseur",
+      "type": "simple",
+      "prix": "29",
+      "categories": [
+        "diffuseurs"
+      ],
+      "extrait": "200 ml, tous parfums.",
+      "description": "Recharge compatible avec tous nos diffuseurs."
+    },
+    {
+      "sku": "ML-D04",
+      "nom": "Brume d’oreiller",
+      "type": "simple",
+      "prix": "24",
+      "categories": [
+        "diffuseurs"
+      ],
+      "extrait": "Lavande, camomille, 100 ml.",
+      "description": "Deux pulvérisations sur l’oreiller, le soir."
+    },
+    {
+      "sku": "ML-C01",
+      "nom": "Coffret Découverte",
+      "type": "simple",
+      "prix": "58",
+      "categories": [
+        "coffrets"
+      ],
+      "vedette": true,
+      "extrait": "Trois bougies miniatures et une brume.",
+      "description": "Pour trouver son parfum, ou pour offrir."
+    },
+    {
+      "sku": "ML-C02",
+      "nom": "Coffret Soirée",
+      "type": "simple",
+      "prix": "89",
+      "promo": "75",
+      "categories": [
+        "coffrets"
+      ],
+      "extrait": "Une bougie Ambre grande et un diffuseur.",
+      "description": "Notre association la plus offerte."
+    },
+    {
+      "sku": "ML-C03",
+      "nom": "Coffret Atelier",
+      "type": "simple",
+      "prix": "120",
+      "categories": [
+        "coffrets"
+      ],
+      "extrait": "Une place à l’atelier de coulage, deux heures.",
+      "description": "Apprendre à couler sa propre bougie."
+    },
+    {
+      "sku": "ML-C04",
+      "nom": "Carte cadeau",
+      "type": "simple",
+      "prix": "50",
+      "categories": [
+        "coffrets"
+      ],
+      "extrait": "Valable un an sur toute la boutique.",
+      "description": "Envoyée par e-mail, au montant choisi."
+    }
+  ],
+  "pages": [
+    {
+      "slug": "accueil",
+      "titre": "Accueil",
+      "contenu": "@contenus/accueil.html"
+    },
+    {
+      "slug": "a-propos",
+      "titre": "À propos",
+      "contenu": "@contenus/a-propos.html"
+    },
+    {
+      "slug": "contact",
+      "titre": "Contact",
+      "contenu": "@contenus/contact.html"
+    },
+    {
+      "slug": "mentions-legales",
+      "titre": "Mentions légales",
+      "contenu": "@contenus/mentions-legales.html"
+    },
+    {
+      "slug": "livraison-et-retours",
+      "titre": "Livraison et retours",
+      "contenu": "@contenus/livraison-retours.html"
+    }
+  ],
+  "pages_woocommerce": {
+    "boutique": {
+      "titre": "Tous les produits",
+      "slug": "boutique"
+    },
+    "panier": {
+      "titre": "Panier",
+      "slug": "panier",
+      "contenu": "@contenus/panier.html"
+    },
+    "commande": {
+      "titre": "Commande",
+      "slug": "commande",
+      "contenu": "@contenus/commande.html"
+    },
+    "mon-compte": {
+      "titre": "Mon compte",
+      "slug": "mon-compte",
+      "contenu": "@contenus/mon-compte.html"
+    },
+    "cgv": {
+      "titre": "Conditions générales de vente",
+      "slug": "conditions-generales-de-vente",
+      "contenu": "@contenus/cgv.html"
+    },
+    "confidentialite": {
+      "titre": "Politique de confidentialité",
+      "slug": "politique-de-confidentialite",
+      "contenu": "@contenus/confidentialite.html"
+    }
+  },
+  "accueil": "accueil",
+  "_medias": "Fichiers de theme/<slug>/assets/img/ : le placeholder des produits (placeholder_produit), les photos Unsplash de la maquette nommées par emplacement, le logo et le favicon (visuels.py). Le slug devient {{media:<slug>}} dans les contenus. La valeur est le texte alternatif.",
+  "formulaires": [
+    {
+      "titre": "Maison Lumen — Contact",
+      "gabarit": "@contenus/formulaire-contact.txt",
+      "destinataire": "bonjour@exemple.fr"
+    }
+  ],
+  "_pages": "« pages » : UNIQUEMENT les pages vitrine du brief (accueil + celles listées : À propos, Contact…) et les trames légales. Les pages marchandes (boutique, catégories, fiche, panier, commande, Mon compte) viennent de WooCommerce et du thème, toujours. Le titre de la boutique suit la niche (« Nos bijoux », « Catalogue », « Tous les produits ») : c'est aussi le libellé du menu.",
+  "_formulaires": "Contact Form 7, créé avant les pages ; la page contact l'appelle par [contact-form-7 id=\"{{formulaire:<titre>}}\" title=\"<titre>\"]."
+}

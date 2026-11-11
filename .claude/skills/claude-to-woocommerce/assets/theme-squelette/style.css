@@ -1,0 +1,672 @@
+/*
+Theme Name: Mon Thème
+Theme URI: https://example.com
+Author: —
+Description: Thème bloc WooCommerce sur mesure. Couleurs et polices réglables dans Apparence → Éditeur → Styles ; en-tête et pied de page dans Apparence → Éditeur → Compositions.
+Version: 1.0.0
+Requires at least: 6.8
+Tested up to: 7.1
+Requires PHP: 8.0
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: mon-theme
+Tags: block-theme, full-site-editing, e-commerce, woocommerce
+*/
+
+/* ==========================================================================
+   Mode d'emploi du squelette
+   - Sections 1 à 3 et 11 : à compléter avec le CSS de la maquette (composants
+     de l'accueil, en-tête, pied de page), classes posées sur les blocs.
+   - Sections 4 à 10 : les pages marchandes, déjà éprouvées sur le DOM de
+     WooCommerce 11.1 (voir references/blocs-woocommerce.md). On en règle la
+     SURFACE d'après la maquette (tailles, espacements, boutons) — on ne
+     supprime pas les correctifs commentés « PIÈGE ».
+   ========================================================================== */
+
+/* ==========================================================================
+   1 · Jetons
+   Les couleurs sont des ALIAS des couleurs de theme.json : le client les
+   change dans Styles → Couleurs → Palette, et tout le site suit. Aucune
+   couleur en dur ailleurs dans cette feuille (porte « styles globaux ») —
+   les nuances se dérivent par color-mix(). --police-titres et --police-texte
+   ne se définissent PAS ici : functions.php les pose depuis Styles →
+   Typographie (le « pont »).
+   ========================================================================== */
+:root{
+  --fond:var(--wp--preset--color--fond);
+  --surface:var(--wp--preset--color--surface);
+  --texte:var(--wp--preset--color--texte);
+  --sourdine:var(--wp--preset--color--sourdine);
+  --trait:var(--wp--preset--color--trait);
+  --accent:var(--wp--preset--color--accent);
+  --sur-accent:var(--wp--preset--color--sur-accent);
+  --promo:var(--wp--preset--color--promo);
+  --alerte:var(--wp--preset--color--alerte);
+
+  --rayon:var(--wp--custom--rayon,10px);
+  --rayon-bouton:var(--wp--custom--rayon-bouton,999px);
+  --largeur:1240px;
+  --gouttiere:clamp(16px,4vw,40px);   /* la valeur de la maquette : elle règle aussi les sections pleine largeur */
+  --entete-h:76px;
+
+  /* Icônes en masques CSS (jamais de SVG dans le contenu) : color = currentColor */
+  --i-fleche:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E");
+  --i-sac:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linejoin='round'%3E%3Cpath d='M5.5 8.5h13l-1 11.5h-11z'/%3E%3Cpath d='M9 8.5V7a3 3 0 0 1 6 0v1.5'/%3E%3C/svg%3E");
+  --i-livraison:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linejoin='round'%3E%3Cpath d='M3 6.5h11v9H3zM14 9.5h4l3 3v3h-7z'/%3E%3Ccircle cx='7' cy='17.5' r='1.8'/%3E%3Ccircle cx='17' cy='17.5' r='1.8'/%3E%3C/svg%3E");
+  --i-retour:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M19.5 12a7.5 7.5 0 1 1-2.2-5.3'/%3E%3Cpath d='M19.5 4.5v4h-4'/%3E%3C/svg%3E");
+  --i-cadenas:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.5' stroke-linejoin='round'%3E%3Crect x='5' y='10.5' width='14' height='10' rx='1.5'/%3E%3Cpath d='M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5'/%3E%3C/svg%3E");
+
+  /* Variables exposées par WooCommerce, branchées sur les rôles du thème */
+  --wc-separator-color:var(--trait);
+  --wc-form-color-text:var(--texte);
+  --wc-product-filter-chips-text:var(--texte);
+  --wc-product-filter-chips-border:var(--trait);
+  --wc-product-filter-chips-background:var(--fond);
+  --wc-product-filter-chips-selected-text:var(--sur-accent);
+  --wc-product-filter-chips-selected-border:var(--accent);
+  --wc-product-filter-chips-selected-background:var(--accent);
+  --wc-product-filter-price-slider:var(--accent);
+  --wc-product-filter-price-slider-handle:var(--accent);
+  --wc-product-filter-price-slider-handle-border:var(--fond);
+  --wc-product-filter-checkbox-list-option-element:var(--trait);
+  --wc-product-filter-checkbox-list-option-element-border:var(--trait);
+  --wc-product-filter-checkbox-list-option-element-selected:var(--accent);
+  --wc-product-filter-removable-chips-text:var(--texte);
+  --wc-product-filter-removable-chips-border:var(--trait);
+  --wc-product-filter-removable-chips-background:var(--surface);
+  --wc-customer-account-dropdown-border-color:var(--trait);
+  --wc-customer-account-dropdown-surface:var(--fond);
+  --wc-customer-account-dropdown-item-hover-bg:var(--surface);
+}
+
+/* ==========================================================================
+   2 · Base
+   ========================================================================== */
+/* pseudo-éléments compris : sinon un rond de 9 px bordé mesure 11 px, et la ligne
+   de base d'un surtitre en inline-flex bouge d'1 px par section (vécu : −3 px en bas de page) */
+*,*::before,*::after{box-sizing:border-box}
+/* Pas de position:relative sur body : un en-tête posé sur un héros se cale sur
+   le haut de la page, et les décalages de la barre d'admin restent justes. */
+body{margin:0;background:var(--fond);color:var(--texte);font-family:var(--police-texte);-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block} /* height:auto obligatoire : sinon l'attribut height des blocs image l'emporte sur aspect-ratio */
+/* PIÈGE : img{display:block} écrase l'attribut hidden — le mini-panier et le panier
+   affichaient leur image de secours cachée (deux vignettes par article). */
+[hidden]{display:none!important}
+h1,h2,h3,h4{margin:0;font-family:var(--police-titres);text-wrap:balance;hyphens:none}
+p{margin:0}
+a{color:inherit;text-underline-offset:.18em}
+a:hover{color:var(--accent)}
+
+/* Gutenberg applique margin-block-start entre frères. La neutralisation
+   se fait d'abord dans theme.json (blockGap: "0px") et, en filet de
+   sécurité, ICI À SPÉCIFICITÉ NULLE — jamais en .wp-block-group > * :
+   cette version-là écraserait toutes les marges de vos composants
+   (vécu : 14 marges à zéro, 307 px de rythme vertical perdus). */
+:where(.wp-block-group)>:where(*),:where(.wp-block-buttons){margin-block:0}
+figure.wp-block-image{margin:0}
+
+.wrap{width:100%;max-width:calc(var(--largeur) + 2 * var(--gouttiere));margin-inline:auto;padding-inline:var(--gouttiere)}
+
+/* Boutons : les styles de theme.json (elements.button) valent pour les boutons
+   de la page ET pour ceux de WooCommerce, qui portent tous .wp-element-button.
+   Un bouton de la maquette (ex. .b-sombre) : UNE définition pour deux DOM —
+   « :is(a,button).b-sombre, .b-sombre>.wp-block-button__link » — et le
+   conteneur du bloc neutralisé, sinon il double la pastille (blocs-gutenberg.md). */
+.wp-block-button.b-plein{display:inline-block;background:none;border:0;padding:0;border-radius:0}
+.wp-block-button.is-style-outline .wp-block-button__link{background:transparent;color:var(--texte);border:1px solid var(--trait)}
+.wp-element-button,.wp-block-button__link{transition:background-color .2s,color .2s,border-color .2s}
+
+/* Champs de formulaire — WooCommerce (blocs et « Mon compte »), recherche, CF7.
+   Le rayon est celui des champs de la maquette. */
+:where(input[type=text],input[type=email],input[type=tel],input[type=password],input[type=number],
+  input[type=search],input[type=url],select,textarea){
+  font:inherit;color:var(--texte);background:var(--fond);border:1px solid var(--trait);
+  border-radius:var(--rayon);padding:12px 14px;min-height:48px;max-width:100%}
+:where(input,select,textarea):focus{outline:none;border-color:var(--texte)}
+
+:where(a,button,input,select,textarea,[tabindex]):focus-visible{
+  outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+/* Promesses : paragraphes à icône (fiche produit, récapitulatif du panier).
+   N'y écrire QUE des faits : seuil de livraison des réglages, rétractation
+   légale de 14 jours, paiement sécurisé — jamais un service non demandé. */
+.promesse{display:flex;align-items:center;gap:12px;font-size:13px}
+.promesse::before{content:"";flex:none;width:18px;height:18px;background:currentColor;
+  -webkit-mask:var(--i-livraison) center/contain no-repeat;mask:var(--i-livraison) center/contain no-repeat}
+.promesse-retours::before{-webkit-mask-image:var(--i-retour);mask-image:var(--i-retour)}
+.promesse-paiement::before{-webkit-mask-image:var(--i-cadenas);mask-image:var(--i-cadenas)}
+
+/* ==========================================================================
+   3 · En-tête, en-tête de commande, pied de page (parts/)
+   Tout y est modifiable dans Apparence → Éditeur → Compositions : logo
+   (bloc Logo du site → Remplacer), menu, textes, liens, réseaux.
+   Menu : le lien du catalogue toujours ; les catégories à plat si elles
+   tiennent (2 à 4), sinon en sous-menu du catalogue (core/navigation-submenu).
+   Jamais la loupe de recherche par défaut (core/search) dans l'en-tête.
+   ========================================================================== */
+.entete{position:sticky;top:0;z-index:40;background:var(--fond);border-bottom:1px solid var(--trait)}
+/* Décalage de la barre d'admin : seulement pour un en-tête collant (ici) ou posé
+   sur le héros. Sur un en-tête en flux, il le ferait descendre sur le contenu. */
+.admin-bar .entete{top:32px}
+.entete-rangee{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:var(--entete-h)}
+/* Largeur du logo = celle du logo texte de la maquette, mesurée (porte 4) */
+.entete-logo img{width:auto;max-height:36px}
+.menu .wp-block-navigation__container{gap:28px}
+.menu .wp-block-navigation-item__content{text-decoration:none;font-weight:500}
+.menu .current-menu-item>.wp-block-navigation-item__content{text-decoration:underline}
+/* sous-menu des catégories (au survol en ordinateur, dans le panneau en mobile) */
+.menu .wp-block-navigation__submenu-container{min-width:220px;padding:10px 0;border:1px solid var(--trait)!important;
+  border-radius:var(--rayon);background:var(--fond)!important;color:var(--texte)!important;box-shadow:0 12px 32px color-mix(in srgb,var(--texte) 8%,transparent)}
+.menu .wp-block-navigation__submenu-container .wp-block-navigation-item__content{padding:8px 18px;font-weight:400}
+/* ---------- Menu mobile (panneau de core/navigation) ----------
+   PIÈGE (vécu en production) : WordPress règle la marge du panneau sur le
+   padding racine de theme.json — absent : liens collés au bord gauche, croix
+   de 24 px collée dans l'angle, sous la barre d'admin quand on est connecté,
+   « impossible à fermer ». Et il s'ouvre blanc sur blanc. Le CSS du bloc est
+   imprimé APRÈS cette feuille : sélecteurs qualifiés, !important là où
+   WordPress écrit à spécificité égale. */
+.wp-block-navigation.menu .wp-block-navigation__responsive-container-open{width:44px;height:44px;align-items:center;justify-content:center;margin-left:-11px;color:inherit}
+.wp-block-navigation.menu .wp-block-navigation__responsive-container-open svg{width:26px;height:26px}
+.wp-block-navigation.menu .wp-block-navigation__responsive-container.is-menu-open{
+  background-color:var(--fond)!important;color:var(--texte)!important;padding:14px var(--gouttiere) 40px!important}
+.wp-block-navigation.menu .is-menu-open .wp-block-navigation__responsive-container-close{top:0;right:-11px;width:44px;height:44px;
+  display:flex;align-items:center;justify-content:center;color:var(--texte)}
+.wp-block-navigation.menu .is-menu-open .wp-block-navigation__responsive-container-close svg{width:28px;height:28px}
+.wp-block-navigation.menu .is-menu-open .wp-block-navigation__responsive-container-content{padding-top:64px!important;align-items:stretch!important}
+.wp-block-navigation.menu .is-menu-open .wp-block-navigation__container{gap:0!important;width:100%;align-items:stretch!important}
+.wp-block-navigation.menu .is-menu-open .wp-block-navigation-item{width:100%;border-bottom:1px solid var(--trait)}
+.wp-block-navigation.menu .is-menu-open .wp-block-navigation-item__content{display:block;width:100%;padding:16px 0!important;
+  font-family:var(--police-titres);font-size:24px;line-height:1.2;text-decoration:none}
+/* sous-menu des catégories : déplié dans le panneau, en retrait */
+.wp-block-navigation.menu .is-menu-open .wp-block-navigation__submenu-container{padding:0 0 12px 16px!important;border:0!important;
+  box-shadow:none!important;background:transparent!important}
+.wp-block-navigation.menu .is-menu-open .wp-block-navigation__submenu-container .wp-block-navigation-item{border:0}
+.wp-block-navigation.menu .is-menu-open .wp-block-navigation__submenu-container .wp-block-navigation-item__content{
+  font-family:var(--police-texte);font-size:16px;padding:8px 0!important}
+/* Liens réservés au panneau (className « menu-mobile-seul ») : tout ce que
+   l'en-tête masque en mobile (un lien Contact des actions, un bouton) doit
+   rester accessible ici */
+.wp-block-navigation.menu .wp-block-navigation__responsive-container:not(.is-menu-open) .menu-mobile-seul{display:none}
+.entete-actions{display:flex;align-items:center;gap:6px}
+.entete-compte a,.entete-panier .wc-block-mini-cart__button{color:var(--texte);padding:8px}
+.wc-block-mini-cart__badge{background:var(--accent)!important;color:var(--sur-accent)!important}
+
+.entete-commande{border-bottom:1px solid var(--trait);background:var(--fond)}
+.entete-commande-rangee{display:flex;align-items:center;gap:24px;min-height:var(--entete-h)}
+.entete-commande-rangee .commande-securisee{display:flex;align-items:center;gap:8px;margin-left:auto;color:var(--sourdine);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.entete-commande-rangee .commande-securisee::before{content:"";width:15px;height:15px;background:currentColor;
+  -webkit-mask:var(--i-cadenas) center/contain no-repeat;mask:var(--i-cadenas) center/contain no-repeat}
+.entete-commande-rangee .commande-retour{font-size:14px}
+
+.pied{background:var(--surface);color:var(--texte);margin-top:120px}
+.pied-haut{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,2fr);gap:48px;padding-block:72px 48px}
+.pied-logo img{width:auto;max-height:32px}
+.pied-baseline{margin-top:16px;color:var(--sourdine);max-width:34ch}
+.pied-colonnes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
+/* un titre de colonne en h2 hérite la hauteur de ligne des titres (theme.json) :
+   la poser, sinon elle diffère de la maquette (vécu : 4 px par colonne) */
+.pied-titre{font-family:var(--police-texte);font-size:14px;line-height:1.5;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px}
+.pied-menu .wp-block-navigation__container{gap:10px}
+.pied-menu .wp-block-navigation-item__content,.pied-legal .wp-block-navigation-item__content{text-decoration:none;color:var(--sourdine)}
+.pied-contact{color:var(--sourdine)}
+.pied-contact+.pied-contact{margin-top:10px}
+.pied-bas{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;
+  padding-block:24px;border-top:1px solid var(--trait);font-size:14px;color:var(--sourdine)}
+.pied-legal .wp-block-navigation__container{gap:20px}
+.pied-reseaux.wp-block-social-links{gap:10px}
+.pied-reseaux .wp-social-link{background:transparent!important;color:var(--texte)!important}
+
+/* ==========================================================================
+   4 · Cartes produit — le même composant partout : catalogue, accueil,
+   produits associés, ventes croisées, panier vide.
+   <ul class="wc-block-product-template grille-produits"> > li.wc-block-product
+   ========================================================================== */
+.grille-produits.wc-block-product-template{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:40px 24px;list-style:none;margin:0;padding:0}
+.grille-produits .wc-block-product{display:flex;flex-direction:column;gap:14px;margin:0;width:auto;min-width:0}
+/* PIÈGE : WooCommerce ajoute 12 px sous chaque enfant de la carte
+   (:where(.wc-block-product-template .wc-block-product) > :not(:last-child))
+   et 12 px sous le résumé : la carte mesurait 18 px de plus que la maquette. */
+.grille-produits .wc-block-product>*{margin-block:0}
+.grille-produits .wc-block-components-product-summary{margin:0}
+.grille-produits .carte-image{margin:0;border-radius:var(--rayon);overflow:hidden;background:var(--surface)}
+.grille-produits .carte-image img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.grille-produits .wc-block-product:hover .carte-image img{transform:scale(1.03)}
+.carte-infos{display:flex;flex-direction:column;gap:4px}
+.carte-titre{font-size:16px;font-weight:600;line-height:1.3;margin:0}
+.carte-titre a{text-decoration:none}
+.carte-prix{font-size:15px;color:var(--texte)}
+.carte-prix del{color:var(--sourdine);margin-right:6px}
+.carte-prix ins{text-decoration:none;color:var(--promo)}
+.carte-bouton{margin-top:auto}
+.carte-bouton .wp-block-button__link,.carte-bouton .wc-block-components-product-button__button{width:100%;justify-content:center}
+.carte-bouton .added_to_cart{display:none}
+/* Un bouton de carte réduit à une icône : WooCommerce fixe sa largeur à 3 classes —
+   qualifier (.wc-block-product .carte-… .carte-bouton …) et forcer la largeur. */
+.wc-block-components-product-sale-badge{background:var(--fond);color:var(--promo);border:0;border-radius:var(--rayon-bouton);
+  font-size:12px;font-weight:600;letter-spacing:.02em;padding:4px 10px;text-transform:none}
+.wc-block-components-product-image .wc-block-components-product-sale-badge{top:10px;right:10px}
+.section-titre{font-size:var(--wp--preset--font-size--titre-2)}
+
+/* ==========================================================================
+   5 · Catalogue : archive-product.html (boutique, catégories, étiquettes,
+   attributs, marques) et product-search-results.html — patterns/catalogue.php
+   ========================================================================== */
+.catalogue-entete{padding-block:48px 32px}
+.fil-ariane,.woocommerce-breadcrumb{font-size:13px;color:var(--sourdine)}
+.fil-ariane a{color:inherit;text-decoration:none}
+.fil-ariane a:hover{color:var(--texte);text-decoration:underline}
+.catalogue-titre{font-size:var(--wp--preset--font-size--titre-1);margin-top:16px}
+.catalogue-intro{margin-top:14px;max-width:60ch;color:var(--sourdine);font-size:var(--wp--preset--font-size--chapeau)}
+.catalogue{display:grid;grid-template-columns:240px minmax(0,1fr);gap:48px;align-items:start}
+.catalogue .grille-produits.wc-block-product-template{grid-template-columns:repeat(3,minmax(0,1fr))}
+.catalogue-filtres{position:sticky;top:calc(var(--entete-h) + 24px)}
+.filtres h2{font-size:18px}
+.filtres h3{font-family:var(--police-texte);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.filtres .wp-block-woocommerce-product-filter-price,
+.filtres .wp-block-woocommerce-product-filter-attribute,
+.filtres .wp-block-woocommerce-product-filter-taxonomy,
+.filtres .wp-block-woocommerce-product-filter-status{padding-top:24px;margin-top:24px;border-top:1px solid var(--trait)}
+.catalogue-barre{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px;color:var(--sourdine);font-size:14px}
+.catalogue-barre .woocommerce-ordering select{min-height:40px;padding-block:8px}
+.pagination{margin-top:56px;gap:8px}
+.pagination .page-numbers{display:inline-grid;place-items:center;min-width:40px;height:40px;border-radius:var(--rayon-bouton);text-decoration:none}
+.pagination .page-numbers.current{background:var(--texte);color:var(--fond)}
+.aucun-resultat{padding:48px 0;display:grid;gap:20px;justify-items:start}
+
+/* ==========================================================================
+   6 · Fiche produit : single-product.html
+   Galerie à gauche (format réglé par l'attribut aspectRatio du bloc Image du
+   produit de la galerie), colonne d'achat collante à droite. Le sélecteur de
+   variations est celui de WooCommerce (pastilles) : on règle sa peau.
+   ========================================================================== */
+.fiche-haut{padding-block:26px 22px}
+.fiche{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(40px,6vw,96px);align-items:start}
+.fiche-galerie .wc-block-product-gallery-large-image{border-radius:var(--rayon);overflow:hidden;background:var(--surface)}
+.fiche-galerie .wc-block-product-gallery-large-image img{width:100%;height:100%;object-fit:cover}
+/* PIÈGE (vécu) : sans largeur posée, la colonne des vignettes prend ~45 % de la
+   galerie dès qu'un produit a plusieurs photos (332 px à 1440) et écrase la
+   grande image. Colonne fixe en ordinateur, rangée sous l'image en mobile (section 12). */
+.fiche-galerie .wc-block-product-gallery-thumbnails{flex:0 0 76px;width:76px!important;max-width:76px;margin-right:16px;align-self:flex-start}
+.fiche-galerie .wc-block-product-gallery-thumbnails__scrollable{display:flex;flex-direction:column;gap:10px}
+.fiche-galerie .wc-block-product-gallery-thumbnails__thumbnail{width:76px;overflow:hidden;background:var(--surface);border-radius:calc(var(--rayon) * .6)}
+.fiche-galerie .wc-block-product-gallery-thumbnails img{width:100%;height:100%;object-fit:cover;border-radius:calc(var(--rayon) * .6)}
+.fiche-galerie .wc-block-product-gallery-large-image{flex:1 1 auto;min-width:0}
+.fiche-galerie .wc-block-components-product-sale-badge{top:16px;right:16px;margin:0}
+.fiche-achat{position:sticky;top:calc(var(--entete-h) + 32px);display:flex;flex-direction:column}
+body.admin-bar .fiche-achat{top:calc(var(--entete-h) + 64px)}
+.fiche-surtitre{font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--sourdine)}
+.fiche-surtitre a{text-decoration:none}
+.fiche-titre{margin-top:14px;font-size:var(--wp--preset--font-size--titre-2);line-height:1.06}
+.fiche-note:not(:empty){margin-top:12px}
+.fiche-prix{margin-top:18px;font-size:20px;font-variant-numeric:tabular-nums}
+.fiche-prix del{color:var(--sourdine);font-size:.8em;margin-right:10px}
+.fiche-prix ins{text-decoration:none;color:var(--promo)}
+.fiche-resume{margin-top:8px;color:var(--sourdine)}
+.fiche-resume p{margin:0}
+
+.fiche-ajout{margin-top:30px;padding-top:26px;border-top:1px solid var(--trait)}
+/* variations : nom de l'attribut + pastilles (styles en ligne de WooCommerce → !important) */
+.fiche-ajout .wp-block-woocommerce-add-to-cart-with-options-variation-selector-attribute>.wp-block-group{gap:12px!important;margin:0 0 24px!important}
+.fiche-ajout .wp-block-woocommerce-add-to-cart-with-options-variation-selector-attribute-name{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.fiche-ajout .wc-block-product-filter-chips__items{gap:8px}
+.fiche-ajout .wc-block-product-filter-chips__item{display:inline-flex;align-items:center;justify-content:center;min-width:52px;height:44px;padding:0 16px;
+  border:1px solid var(--trait);border-radius:var(--rayon-bouton);background:var(--fond);color:var(--texte);font-size:14px;
+  transition:border-color .2s,background-color .2s,color .2s}
+.fiche-ajout .wc-block-product-filter-chips__item:hover{border-color:var(--texte)}
+.fiche-ajout .wc-block-product-filter-chips__item[aria-checked="true"]{background:var(--accent);border-color:var(--accent);color:var(--sur-accent)}
+.fiche-ajout .wc-block-product-filter-chips__item:disabled:hover{border-color:var(--trait)}
+/* Pastille de couleur devant le nom d'un terme (métal, coloris…) : cibler la
+   VALEUR du terme, ex. [value="or-rose"] .wc-block-product-filter-chips__label::before */
+.fiche-ajout .wp-block-woocommerce-add-to-cart-with-options-variation-description{margin:0 0 18px!important;font-size:14px;color:var(--sourdine)}
+/* PIÈGE : pour une variation en rupture, l'indicateur garde la classe --in-stock
+   du parent — ne pas colorer l'état par sa classe sur un produit variable. */
+.fiche-ajout .wc-block-components-product-stock-indicator{margin:0 0 16px!important;font-size:13px}
+.fiche-ajout .wc-block-components-product-stock-indicator:empty{display:none}
+.wc-block-components-product-stock-indicator--out-of-stock{color:var(--alerte)}
+/* quantité + bouton sur une ligne ; WooCommerce règle largeur et alignement du bouton à 3 classes : on qualifie */
+.fiche-ajout .wp-block-group:has(>.wp-block-woocommerce-product-button){display:flex;flex-wrap:nowrap;align-items:stretch;gap:10px}
+.fiche-ajout .wc-block-components-quantity-selector{width:116px;height:52px;margin:0;border:1px solid var(--trait);border-radius:var(--rayon-bouton)}
+.fiche-ajout .wc-block-components-quantity-selector::after{display:none}
+.fiche-ajout .wp-block-woocommerce-product-button{flex:1;min-width:0;margin:0;align-items:stretch}
+/* même bouton sur le site (.single_add_to_cart_button) et dans l'aperçu de
+   l'éditeur de site (.wc-block-components-product-button__button, conteneurs en plus) :
+   toujours viser les deux, sinon le modèle « Fiche produit » s'affiche avec un petit bouton */
+.fiche-ajout .wp-block-woocommerce-product-button .wp-block-button{width:100%}
+.fiche-ajout :is(.single_add_to_cart_button,.wc-block-components-product-button__button).wp-block-button__link{display:flex;align-items:center;width:100%;height:52px;justify-content:center}
+.fiche-ajout .added_to_cart{display:none}
+
+.fiche-reassurance{display:grid;gap:12px;margin-top:28px;padding:22px 0;border-block:1px solid var(--trait)}
+.fiche-meta{margin-top:18px;font-size:12px;color:var(--sourdine)}
+.fiche-meta .wp-block-group{flex-wrap:wrap;gap:6px 18px}
+.fiche-meta a{text-decoration:none}
+
+/* Détails : titre à gauche, description et caractéristiques à droite
+   (plutôt que les onglets de product-details et leur « Avis (0) ») */
+.fiche-details{display:grid;grid-template-columns:5fr 6fr;gap:clamp(40px,7vw,120px);align-items:start;margin-top:120px}
+.fiche-details-titre{font-size:var(--wp--preset--font-size--titre-2);line-height:1.15}
+.fiche-description{font-size:16px;line-height:1.75;color:color-mix(in srgb,var(--texte) 82%,transparent)}
+.fiche-description p+p{margin-top:16px}
+/* PIÈGE : le bloc Caractéristiques est un figure.wp-block-table — qualifier par
+   « table » pour passer devant les bordures du bloc Tableau de WordPress */
+.fiche-caracteristiques{margin:36px 0 0}
+.fiche-caracteristiques table{width:100%;border-collapse:collapse;font-size:14px}
+.fiche-caracteristiques table th,.fiche-caracteristiques table td{padding:14px 0;border:0;border-top:1px solid var(--trait);
+  text-align:left;vertical-align:top;font-weight:400}
+.fiche-caracteristiques table tr:last-child>*{border-bottom:1px solid var(--trait)}
+.fiche-caracteristiques table th{width:40%;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding-top:16px}
+.fiche-caracteristiques td p{margin:0}
+.fiche-caracteristiques a{text-decoration:none}
+
+/* Vous aimerez aussi : le titre occupe la première colonne d'une grille de 4, trois cartes à droite */
+.fiche-associes{margin-top:130px}
+.collection-associes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;align-items:start}
+/* PIÈGE : le conteneur de messages (vide) de product-collection occupe une cellule de la grille */
+.collection-associes>.wc-block-components-notices{grid-column:1/-1}
+.collection-associes>.wc-block-components-notices:not(:has(*)){display:none}
+.associes-tete{padding-right:12px}
+.associes-tete .section-chapo{margin-top:16px;max-width:26ch;color:var(--sourdine)}
+.associes-tete .lien-fleche{margin-top:26px}
+.collection-associes .grille-produits.wc-block-product-template{grid-column:2/-1;grid-template-columns:repeat(3,minmax(0,1fr))}
+
+.lien-fleche{display:inline-flex;align-items:center;gap:10px;font-size:14px;font-weight:500}
+.lien-fleche a{text-decoration:none}
+.lien-fleche::after{content:"";width:16px;height:16px;background:currentColor;
+  -webkit-mask:var(--i-fleche) center/contain no-repeat;mask:var(--i-fleche) center/contain no-repeat;transition:transform .25s}
+.lien-fleche:hover::after{transform:translateX(3px)}
+
+/* ==========================================================================
+   7 · Mini-panier, panier, commande, confirmation — le bloc Panier et le bloc
+   Commande vivent dans le CONTENU des pages (contenus/panier.html,
+   contenus/commande.html) ; les templates ne font que le cadre.
+   ========================================================================== */
+/* Articles (panier, mini-panier, récapitulatif de commande) — composants partagés */
+.wc-block-cart-item__image img,.wc-block-components-order-summary-item__image img{aspect-ratio:var(--ratio-vignette,4/5);object-fit:cover;
+  background:var(--surface);border-radius:calc(var(--rayon) * .6)}
+.wc-block-components-product-name{font-size:15px;font-weight:600;text-decoration:none;color:var(--texte)}
+.wc-block-components-product-details{font-size:13px;color:var(--sourdine)}
+.wc-block-components-product-details__name{font-weight:400}
+.wc-block-components-quantity-selector .wc-block-components-quantity-selector__button{font-family:inherit;color:var(--texte)}
+.wc-block-components-quantity-selector:where(:has(input:not([type=hidden]))){border-color:var(--trait);border-radius:var(--rayon-bouton)}
+.wc-block-cart-item__remove-link{color:var(--sourdine)!important}
+.wc-block-cart-item__remove-link:hover{color:var(--texte)!important}
+.wc-block-components-product-badge{border-radius:var(--rayon-bouton);border-color:var(--trait);font-weight:500}
+.wc-block-components-sale-badge{color:var(--promo);border-color:currentColor}
+
+/* Mini-panier (tiroir) : parts/mini-cart.html */
+.wc-block-mini-cart__drawer .wc-block-components-drawer__content{background:var(--fond);color:var(--texte)}
+.wc-block-mini-cart__title{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;font-size:26px}
+.wc-block-mini-cart__title .wp-block-woocommerce-mini-cart-title-items-counter-block{font-family:var(--police-texte);font-size:13px;color:var(--sourdine)}
+.wc-block-mini-cart__footer{border-top:1px solid var(--trait);box-shadow:none}
+.wc-block-mini-cart__footer .wc-block-components-totals-item__label{font-size:15px;font-weight:500}
+.wc-block-mini-cart__footer .wc-block-components-totals-item__value{font-size:17px;font-weight:500}
+.wc-block-mini-cart__footer .wc-block-components-totals-item__description{font-size:12px;color:var(--sourdine)}
+.wc-block-mini-cart__footer-actions .wc-block-components-button{min-height:50px;border-radius:var(--rayon-bouton)}
+.wc-block-mini-cart__footer-cart.wc-block-components-button{background:transparent;color:var(--texte);border:1px solid var(--trait)}
+.wc-block-mini-cart__footer-cart.wc-block-components-button:hover{border-color:var(--texte);background:transparent;color:var(--texte)}
+.wc-block-mini-cart__empty-cart-wrapper{padding:48px 24px;text-align:center}
+.wc-block-mini-cart__empty-cart-wrapper p{font-family:var(--police-titres);font-size:24px;margin-bottom:24px}
+
+/* Panier */
+.page-panier .wrap,.page-commande .wrap{padding-block:48px 0}
+.page-titre{font-size:var(--wp--preset--font-size--titre-2);line-height:1.06;margin-bottom:36px}
+/* récapitulatif sur la surface, avec les promesses sous le bouton */
+.wc-block-cart .wc-block-cart__sidebar{padding:30px 30px 26px;background:var(--surface);border-radius:var(--rayon)}
+.wc-block-cart .wc-block-cart__sidebar .wc-block-components-totals-wrapper,
+.wc-block-cart .wc-block-cart__sidebar .wc-block-components-panel{border-color:color-mix(in srgb,var(--texte) 10%,transparent)}
+.wc-block-cart .wc-block-cart__totals-title,.wc-block-components-checkout-order-summary__title-text{
+  font-family:var(--police-titres);text-transform:none;font-size:20px;font-weight:400}
+.wc-block-components-totals-footer-item .wc-block-components-totals-item__value,
+.wc-block-components-totals-footer-item .wc-block-components-totals-item__label{font-size:18px}
+.wc-block-cart .wc-block-cart__submit-button{min-height:54px}
+.wp-block-woocommerce-cart-totals-block .promesse{margin:0;padding-block:6px}
+.wp-block-woocommerce-cart-totals-block .promesse-livraison{margin-top:22px;padding-top:22px;border-top:1px solid color-mix(in srgb,var(--texte) 10%,transparent)}
+.wc-block-cart-items__header{font-size:11px;letter-spacing:.12em}
+.wc-block-cart .wc-block-cart-items td{border-color:var(--trait)}
+/* PIÈGE : panier étroit — WooCommerce fige la colonne produit à 132 px et le
+   total (avec son badge « Économisez… ») déborde de 25 px à 390 px */
+.wc-block-cart:is(.is-mobile,.is-small,.is-medium) table.wc-block-cart-items .wc-block-cart-items__row{grid-template-columns:80px minmax(0,1fr) auto}
+.wc-block-cart:is(.is-mobile,.is-small,.is-medium) table.wc-block-cart-items .wc-block-cart-items__row .wc-block-cart-item__product{grid-column:2/3}
+.wc-block-cart:is(.is-mobile,.is-small,.is-medium) table.wc-block-cart-items .wc-block-cart-items__row .wc-block-cart-item__total{grid-column:3/4}
+.wc-block-cart-item__total .wc-block-components-product-badge{white-space:normal;text-align:right;max-width:110px}
+/* panier vide : composé en blocs natifs (contenus/panier.html), sans l'icône de WooCommerce */
+.panier-vide{display:flex;flex-direction:column;align-items:center;padding:48px 0 16px;text-align:center}
+.panier-vide .panier-vide-titre{font-family:var(--police-titres);font-size:var(--wp--preset--font-size--titre-3);margin:0}
+.panier-vide .panier-vide-titre::before{content:none}
+.panier-vide-texte{margin-top:14px;max-width:46ch;color:var(--sourdine)}
+.panier-vide-actions{margin-top:28px!important}
+.panier-vide-suite{margin:110px 0 44px;text-align:center}
+.wc-block-cart__empty-cart__title.with-empty-cart-icon::before{display:none}
+
+/* Commande */
+.wc-block-components-checkout-step__title{font-family:var(--police-titres);font-size:22px;font-weight:400}
+.wc-block-checkout .wc-block-components-checkout-step{margin-bottom:40px}
+/* Champs du bloc Commande : les libellés flottants sont ceux de WooCommerce,
+   on règle leur peau, pas leur mécanique (sélecteurs à 3 classes → !important). */
+.wc-block-components-text-input input[type],.wc-block-components-country-input .wc-blocks-components-select__select,
+.wc-block-components-state-input .wc-blocks-components-select__select,.wc-blocks-components-select .wc-blocks-components-select__select,
+.wc-block-components-textarea{border-color:var(--trait)!important;border-radius:var(--rayon)!important;background:var(--fond)!important}
+.wc-block-components-text-input.is-active input[type],.wc-block-components-text-input input[type]:focus{border-color:var(--texte)!important;box-shadow:none!important}
+.wc-block-components-radio-control--highlight-checked,.wc-block-components-radio-control-accordion-option{border-radius:var(--rayon)}
+.wc-block-components-radio-control--highlight-checked::after{border-color:var(--trait)}
+.wc-block-components-radio-control__input:checked{border-color:var(--accent)}
+.wc-block-components-radio-control__input:checked::before{background:var(--accent)}
+.wc-block-components-checkbox .wc-block-components-checkbox__input[type=checkbox]:checked{background:var(--accent);border-color:var(--accent)}
+.wc-block-components-checkbox .wc-block-components-checkbox__mark{fill:var(--sur-accent)}
+.wc-block-cart__submit-button,.wc-block-components-checkout-place-order-button{min-height:54px;border-radius:var(--rayon-bouton)!important}
+.wc-block-components-button:not(.is-link){font-family:var(--police-texte)}
+/* le récapitulatif sur la surface, comme celui du panier */
+.wc-block-checkout .wc-block-checkout__sidebar .wc-block-components-checkout-order-summary__content,
+.wc-block-checkout .wp-block-woocommerce-checkout-order-summary-block{background:var(--surface);border:0;border-radius:var(--rayon)}
+.wc-block-checkout .wp-block-woocommerce-checkout-order-summary-block{padding:6px 22px 8px}
+.wc-block-checkout .wc-block-components-checkout-order-summary__title{border:0}
+.wc-block-checkout__sidebar .wc-block-components-totals-wrapper,.wc-block-checkout__sidebar .wc-block-components-panel{border-color:color-mix(in srgb,var(--texte) 10%,transparent)}
+/* PIÈGE : la pastille de quantité est posée à 2 classes par WooCommerce (blanc sur blanc sinon) */
+.wc-block-components-order-summary .wc-block-components-order-summary-item__quantity{background:var(--accent);color:var(--sur-accent);border:0;box-shadow:0 0 0 2px var(--surface)}
+.wc-block-checkout__terms{font-size:13px;color:var(--sourdine)}
+/* erreurs de validation : la couleur « alerte » de la palette, pas le rouge de WooCommerce */
+.wc-block-components-validation-error{color:var(--alerte)}
+.wc-block-components-validation-error svg{fill:currentColor}
+.wc-block-components-text-input.has-error input[type],.wc-block-components-select-input.has-error select,
+.wc-blocks-components-select.has-error .wc-blocks-components-select__select{border-color:var(--alerte)!important}
+.wc-block-components-text-input.has-error label,.wc-block-components-checkbox.has-error{color:var(--alerte)}
+
+/* Confirmation de commande (order-confirmation.html) : un reçu — une colonne
+   centrée, le résumé sur la surface, des filets plutôt que des cadres */
+.page-confirmation .wrap{max-width:calc(880px + 2 * var(--gouttiere));padding-block:72px 0;display:flex;flex-direction:column;gap:44px}
+.wc-block-order-confirmation-status{text-align:center;font-family:var(--police-titres);font-size:inherit!important}
+.wc-block-order-confirmation-status h1{font-size:var(--wp--preset--font-size--titre-1);line-height:1.06;margin:0}
+.wc-block-order-confirmation-status p{margin-top:14px;font-family:var(--police-texte);font-size:16px;color:var(--sourdine)}
+.wc-block-order-confirmation-summary{padding:28px 32px;background:var(--surface);border-radius:var(--rayon)}
+.wc-block-order-confirmation-summary .wc-block-order-confirmation-summary-list{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px 36px;margin:0;padding:0;list-style:none}
+.wc-block-order-confirmation-summary-list-item{margin:0;padding:0;border:0}
+.wc-block-order-confirmation-summary .wc-block-order-confirmation-summary-list-item__key{display:block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--sourdine)}
+.wc-block-order-confirmation-summary .wc-block-order-confirmation-summary-list-item__value{display:block;margin-top:6px;font-size:15px;overflow-wrap:anywhere}
+.page-confirmation .wp-block-heading{font-size:24px;margin-bottom:18px}
+.wc-block-order-confirmation-totals .wc-block-order-confirmation-totals__table{border:0;border-collapse:collapse;width:100%;font-size:15px}
+.wc-block-order-confirmation-totals .wc-block-order-confirmation-totals__table :is(th,td){padding:16px 0;border:0;border-top:1px solid var(--trait);font-weight:400}
+.wc-block-order-confirmation-totals .wc-block-order-confirmation-totals__table thead th{border-top:0;padding-top:0;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--sourdine)}
+.wc-block-order-confirmation-totals .wc-block-order-confirmation-totals__table tfoot tr:last-child :is(th,td){font-size:18px;font-weight:500;border-top-color:var(--texte)}
+.wc-block-order-confirmation-totals .wc-block-order-confirmation-totals__table a{text-decoration:none}
+.wc-block-order-confirmation-totals .product-quantity{font-weight:400;color:var(--sourdine)}
+.wc-block-order-confirmation-address-wrapper{gap:28px}
+.wc-block-order-confirmation-address-wrapper .wp-block-heading{font-size:20px;margin-bottom:12px}
+.wc-block-order-confirmation-shipping-address,.wc-block-order-confirmation-billing-address{padding:20px 0 0;border:0!important;border-top:1px solid var(--trait)!important;border-radius:0;line-height:1.7}
+.wc-block-order-confirmation-additional-information:not(:empty){padding:28px 32px;border:1px solid var(--trait);border-radius:var(--rayon)}
+
+/* ==========================================================================
+   8 · Mon compte — balisage WooCommerce CLASSIQUE (shortcode), il n'existe
+   pas de version en blocs. Page « Mon compte » : contenus/mon-compte.html.
+   PIÈGE : la feuille « blocktheme » de WooCommerce espace les liens et borne le
+   bloc à 1000 px, à 3 classes — d'où les sélecteurs qualifiés ci-dessous.
+   ========================================================================== */
+.page-compte{padding-block:48px 0}
+.page-compte>.wp-block-heading{font-size:var(--wp--preset--font-size--titre-2);margin-bottom:32px}
+/* La feuille classique de WooCommerce pose des clearfix (::before/::after en
+   display:table), des flottants et des largeurs en % : dans une grille, les
+   pseudo-éléments deviennent des CELLULES et décalent tout. On les neutralise. */
+.woocommerce-account .woocommerce::before,.woocommerce-account .woocommerce::after,
+.woocommerce-account .woocommerce .u-columns::before,.woocommerce-account .woocommerce .u-columns::after{content:none;display:none}
+.woocommerce-MyAccount-navigation,.woocommerce-MyAccount-content,.u-column1,.u-column2{float:none!important;width:auto!important}
+.woocommerce-account main .woocommerce{display:grid;grid-template-columns:220px minmax(0,1fr);gap:56px;align-items:start;max-width:none}
+.woocommerce-account .woocommerce>.woocommerce-notices-wrapper,
+.woocommerce-account .woocommerce>.u-columns,
+.woocommerce-account .woocommerce>h2,
+.woocommerce-account .woocommerce>.woocommerce-form-login{grid-column:1/-1}
+.woocommerce-account .woocommerce-MyAccount-navigation ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.woocommerce-account .woocommerce-MyAccount-navigation li{margin:0;padding:0}
+.woocommerce-account .woocommerce-MyAccount-navigation li a{display:block;padding:11px 16px;border-radius:var(--rayon);text-decoration:none;color:var(--sourdine)}
+.woocommerce-account .woocommerce-MyAccount-navigation li.is-active a,.woocommerce-account .woocommerce-MyAccount-navigation li a:hover{background:var(--surface);color:var(--texte);text-decoration:none}
+.woocommerce-account .woocommerce-MyAccount-navigation li.woocommerce-MyAccount-navigation-link--customer-logout{margin-top:14px;padding-top:14px;border-top:1px solid var(--trait)}
+.woocommerce-MyAccount-content{line-height:1.7}
+/* :first-of-type — le premier enfant est le conteneur de messages */
+.woocommerce-MyAccount-content>p:first-of-type{margin-top:0;font-family:var(--police-titres);font-size:24px;line-height:1.3}
+.woocommerce-MyAccount-content>p:first-of-type strong{font-weight:400}
+.woocommerce-MyAccount-content>p:first-of-type a{font-family:var(--police-texte);font-size:14px;color:var(--sourdine)}
+.woocommerce-MyAccount-content>p:nth-of-type(2){margin-top:14px;max-width:62ch;color:var(--sourdine)}
+.woocommerce-MyAccount-content h2,.woocommerce-MyAccount-content h3{font-size:22px;margin-bottom:18px}
+/* connexion / inscription : deux cartes sur la surface */
+.u-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:stretch}
+.woocommerce-account .u-columns :is(.u-column1,.u-column2){padding:44px;background:var(--surface);border-radius:var(--rayon)}
+.u-columns h2{font-size:28px;margin-bottom:26px}
+.woocommerce-account .woocommerce :is(form.login,form.register){margin:0;padding:0;border:0;border-radius:0}
+.woocommerce form .form-row{display:flex;flex-direction:column;gap:8px;margin:0 0 18px;padding:0}
+.woocommerce form .form-row label{font-size:13px;font-weight:500;line-height:1.4}
+.woocommerce form .form-row .required{color:var(--sourdine);text-decoration:none}
+.woocommerce form .form-row :is(.input-text,select){width:100%;height:48px;background:var(--fond)}
+.woocommerce form .password-input{display:block;position:relative}
+.woocommerce form.register p:not(.form-row){font-size:13px;color:var(--sourdine);margin:0 0 14px}
+.woocommerce .lost_password{margin:16px 0 0;font-size:13px}
+.woocommerce .lost_password a{color:var(--sourdine)}
+.woocommerce-form-login__rememberme{display:inline-flex!important;flex-direction:row!important;align-items:center;gap:8px!important;font-weight:400!important;margin:4px 0 18px}
+.woocommerce-form-login__rememberme input{accent-color:var(--accent)}
+.woocommerce .woocommerce-Button,.woocommerce button.button,.woocommerce a.button{
+  display:inline-flex;align-items:center;justify-content:center;border:0;cursor:pointer;text-decoration:none;
+  background:var(--accent);color:var(--sur-accent);border-radius:var(--rayon-bouton);padding:14px 26px;
+  font:600 15px/1.2 var(--police-texte)}
+.woocommerce .woocommerce-Button:hover,.woocommerce button.button:hover,.woocommerce a.button:hover{background:var(--texte);color:var(--fond)}
+.woocommerce-account .woocommerce :is(.woocommerce-form-login__submit,.woocommerce-form-register__submit){width:100%;min-height:54px}
+/* tableaux (commandes, détail) : des filets, pas de cadre */
+.woocommerce table.shop_table{width:100%;margin:0 0 28px;border:0;border-collapse:collapse;border-radius:0;font-size:15px}
+.woocommerce table.shop_table :is(th,td){padding:16px 14px 16px 0;border:0;border-top:1px solid var(--trait);text-align:left;vertical-align:middle;font-weight:400}
+.woocommerce table.shop_table thead th{border-top:0;padding-top:0;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--sourdine)}
+.woocommerce table.shop_table tfoot tr:last-child :is(th,td){font-size:17px;font-weight:500}
+.woocommerce table.shop_table a{text-decoration:none}
+.woocommerce table.shop_table .woocommerce-button.button{padding:10px 18px;font-size:13px;min-height:0}
+.woocommerce-Address{padding:24px;border:1px solid var(--trait);border-radius:var(--rayon)}
+.woocommerce-privacy-policy-text{font-size:13px;color:var(--sourdine)}
+
+/* ==========================================================================
+   9 · Messages : blocs (bandeaux) et balisage classique — la surface et la
+   palette, pas le bleu ni le vert de WooCommerce (qualifiés par le type pour
+   passer devant les siens)
+   ========================================================================== */
+.wc-block-components-notice-banner{border-radius:var(--rayon);font-size:14px;line-height:1.55}
+.wc-block-components-notice-banner:is(.is-info,.is-success,.is-warning,.is-error){background-color:var(--surface);border:1px solid var(--trait);color:var(--texte)}
+.wc-block-components-notice-banner:is(.is-info,.is-success,.is-warning)>svg{background-color:var(--texte);fill:var(--fond)}
+.wc-block-components-notice-banner.is-error{border-color:color-mix(in srgb,var(--alerte) 45%,var(--trait))}
+.wc-block-components-notice-banner.is-error>svg{background-color:var(--alerte);fill:var(--fond)}
+.wc-block-components-notice-banner a,.wc-block-components-notice-banner .wc-forward{color:var(--texte);font-weight:500}
+.woocommerce-message,.woocommerce-info,.woocommerce-error{list-style:none;margin:0 0 24px;padding:16px 20px;
+  border-radius:var(--rayon);background:var(--surface);border-left:3px solid var(--texte)}
+.woocommerce-error{border-left-color:var(--alerte)}
+
+/* ==========================================================================
+   10 · Formulaire de contact (Contact Form 7) — le gabarit du formulaire porte
+   les classes de la maquette (contenus/formulaire-contact.txt). functions.php
+   coupe l'ajout de <p>/<br> de CF7 (wpcf7_autop_or_not).
+   ========================================================================== */
+.formulaire .wpcf7,.formulaire .wpcf7-form{display:grid;gap:18px}
+.formulaire .wpcf7-form-control-wrap{display:block}
+/* en bloc : sinon le champ garde l'espace sous la ligne de base (+5 px sous le message) */
+.formulaire .wpcf7-form-control-wrap :is(input,select,textarea){display:block;width:100%}
+.formulaire .wpcf7-spinner{display:none}
+.champ{display:grid;gap:8px}
+.champ span:first-child{font-size:13px;font-weight:500}
+.champ-rangee{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.consentement .wpcf7-list-item{margin:0}
+.consentement label{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--sourdine)}
+.consentement input{accent-color:var(--accent);margin-top:2px}
+/* Le bouton d'envoi est un <input> (pas de pseudo-éléments) : un décor de la
+   maquette (carré, flèche) se pose sur son enveloppe .envoi */
+.envoi{position:relative;justify-self:start;margin-top:6px}
+.envoi input[type=submit]{min-height:48px;padding:0 26px;border:0;border-radius:var(--rayon-bouton);background:var(--accent);color:var(--sur-accent);
+  font:500 15px/1 var(--police-texte);cursor:pointer}
+/* Contact Form 7 désactive l'envoi tant que la case de consentement n'est pas cochée */
+.envoi:has(input:disabled){opacity:.45}
+.envoi input:disabled{cursor:not-allowed}
+.wpcf7-not-valid-tip{margin-top:6px;color:var(--alerte);font-size:13px}
+.formulaire .wpcf7-not-valid{border-color:var(--alerte)!important}
+.wpcf7 form .wpcf7-response-output{margin:0;padding:14px 16px;border:1px solid var(--trait);border-radius:var(--rayon);background:var(--fond);font-size:14px}
+.wpcf7 form.invalid .wpcf7-response-output,.wpcf7 form.failed .wpcf7-response-output{border-color:var(--alerte)}
+.wpcf7 form.sent .wpcf7-response-output{border-color:var(--texte)}
+
+/* ==========================================================================
+   11 · Composants de la maquette (accueil, pages éditoriales) — ici
+   ========================================================================== */
+
+/* ==========================================================================
+   12 · Adaptatif
+   ========================================================================== */
+@media (max-width:1100px){
+  .grille-produits.wc-block-product-template{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:1024px){
+  /* menu replié dès la tablette : WordPress ne replie qu'à 600 px, et un menu de
+     cinq liens ou plus touche le logo entre 600 et 1024 px */
+  .wp-block-navigation.menu .wp-block-navigation__responsive-container-open:not(.always-shown){display:flex}
+  .wp-block-navigation.menu .wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open){display:none}
+  /* en-tête replié : [menu][logo] … [compte][panier] — jamais le bouton du menu
+     flottant au milieu de l'en-tête (space-between le pose entre logo et actions) */
+  .entete-rangee{justify-content:flex-start}
+  .entete-rangee .wp-block-navigation.menu{order:-1}
+  .entete-actions{margin-left:auto}
+  .catalogue{grid-template-columns:minmax(0,1fr)}
+  .catalogue-filtres{position:static}
+  .fiche{grid-template-columns:minmax(0,1fr);gap:32px}
+  .fiche-achat{position:static}
+  .pied-haut{grid-template-columns:minmax(0,1fr)}
+  .collection-associes{grid-template-columns:minmax(0,1fr)}
+  .collection-associes .grille-produits.wc-block-product-template{grid-column:auto;grid-template-columns:repeat(3,minmax(0,1fr))}
+  .associes-tete .section-chapo{max-width:none}
+}
+@media (max-width:860px){
+  .fiche-galerie .wc-block-product-gallery-thumbnails{flex:none;width:100%!important;max-width:none;margin:12px 0 0}
+  .fiche-galerie .wc-block-product-gallery-thumbnails__scrollable{flex-direction:row;overflow-x:auto}
+  .fiche-galerie .wc-block-product-gallery-thumbnails__thumbnail{flex:0 0 64px;width:64px}
+  /* qualifiés : les règles à 3 classes plus haut l'emportent sinon sur ces grilles */
+  .grille-produits.wc-block-product-template,
+  .catalogue .grille-produits.wc-block-product-template,
+  .collection-associes .grille-produits.wc-block-product-template{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 14px}
+  .fiche-details{grid-template-columns:minmax(0,1fr);gap:22px;margin-top:72px}
+  .fiche-associes{margin-top:88px}
+  .wc-block-cart .wc-block-cart__sidebar{padding:24px 20px 20px}
+  .woocommerce-account .u-columns :is(.u-column1,.u-column2){padding:30px 22px}
+  .woocommerce-account main .woocommerce{gap:28px}
+  .page-confirmation .wrap{padding-block:48px 0;gap:32px}
+  .wc-block-order-confirmation-summary{padding:22px 20px}
+  .panier-vide-suite{margin:80px 0 32px}
+  .champ-rangee{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:782px){
+  .admin-bar .entete{top:46px}
+  .entete-rangee{gap:12px}
+  .pied-colonnes{grid-template-columns:minmax(0,1fr)}
+  .woocommerce-account main .woocommerce,.u-columns{grid-template-columns:minmax(0,1fr)}
+  /* masquer un bouton d'en-tête : le CONTENEUR core/buttons, qualifié (le CSS du
+     bloc Boutons, imprimé après, l'emporterait à spécificité égale) */
+  .entete .entete-bouton{display:none}
+}
+@media (max-width:560px){
+  .entete-commande-rangee{gap:14px}
+  .entete-commande-rangee .commande-securisee{font-size:0;gap:0}
+  .entete-commande-rangee .commande-retour{white-space:nowrap;font-size:13px}
+  .catalogue-barre{flex-direction:column;align-items:stretch;gap:12px}
+  .catalogue-barre .woocommerce-ordering,.catalogue-barre .woocommerce-ordering select{width:100%}
+}
+
+/* Variantes affichées par bascule de classe, jamais par injection JS. */
+.est-cachee{display:none}
+.est-cachee.est-actif{display:block}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
