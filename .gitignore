@@ -1,0 +1,56 @@
+# ─── Secrets : ne jamais versionner ──────────────────────────────────
+# Connecteur Novamira (porte un mot de passe d'application en clair)
+*.mcpb
+acces.env
+.mcp-sid
+# Variables d'environnement, clés
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ─── Atelier (WordPress Playground local) ───────────────────────────
+# Régénéré à chaque lancement : jeton de session, paquet, blueprint, rapport
+.atelier/
+
+# Script de contrôle copié dans le thème pendant la phase 3b
+theme/*/menu-mobile-test.js
+
+# ─── Paquets de déploiement générés ────────────────────────────────
+*.zip
+paquet.json
+appel.json
+lien.json
+
+# ─── WordPress : jamais dans ce dépôt ───────────────────────────────
+# (au cas où le dépôt serait ouvert depuis la racine d'un site)
+wp-config.php
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/cache/
+wp-content/plugins/
+wp-content/languages/
+wp-content/c2woo-sauvegardes/
+*.sql
+*.sql.gz
+
+# Dossiers d'un site Local (si le dépôt est au niveau du site)
+logs/
+conf/
+
+# ─── Outils ─────────────────────────────────────────────────────────
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+*.log
+npm-debug.log*
+
+# ─── Système et éditeurs ───────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
