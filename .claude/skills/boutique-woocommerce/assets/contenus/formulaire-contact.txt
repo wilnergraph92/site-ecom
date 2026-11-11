@@ -1,7 +1,0 @@
-<div class="champ-rangee">
-<label class="champ"><span>Nom</span>[text* your-name autocomplete:name]</label>
-<label class="champ"><span>E-mail</span>[email* your-email autocomplete:email]</label>
-</div>
-<label class="champ"><span>Message</span>[textarea* your-message 40x6]</label>
-<div class="consentement">[acceptance consentement]J'accepte que mes données soient utilisées pour répondre à ma demande.[/acceptance]</div>
-<div class="envoi">[submit "Envoyer le message"]</div>
