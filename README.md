@@ -1,4 +1,4 @@
-# site-ecom — Imma Shop
+# site-ecom — DivaStore
 
 Boutique WooCommerce sur mesure, construite avec le skill **`boutique-woocommerce`** (installé sur le compte claude.ai) et développée en local avec **Local** (WP Engine).
 
@@ -31,7 +31,7 @@ Ces dossiers apparaissent au fil des phases du skill ; au départ, le dépôt ne
 
 Prérequis : [Local](https://localwp.com), Git, Node ≥ 20.18, Python 3, et le skill `boutique-woocommerce` sur le compte claude.ai.
 
-1. **Le site Local** : « Imma Shop », domaine `imma-shop.local` (WordPress 7.1, PHP 8.2, MySQL 8.4). Il doit être démarré pour travailler.
+1. **Le site Local** : « DivaStore », domaine `divastore.local` (WordPress 7.1, PHP 8.2, MySQL 8.4). Il doit être démarré pour travailler.
 2. **Le dépôt**, hors du dossier `Local Sites` :
 
    ```bash
@@ -41,10 +41,10 @@ Prérequis : [Local](https://localwp.com), Git, Node ≥ 20.18, Python 3, et le 
 3. **Le thème relié au site** — une fois `theme/<slug>/` créé par le skill (phase 3b) :
 
    ```bash
-   ln -s ~/projets/site-ecom/theme/<slug> ~/"Local Sites"/imma-shop/app/public/wp-content/themes/<slug>
+   ln -s ~/projets/site-ecom/theme/<slug> ~/"Local Sites"/divastore/app/public/wp-content/themes/<slug>
    ```
 
-   Toute modification du thème dans le dépôt est visible aussitôt sur `http://imma-shop.local`. Activer le thème dans WP Admin → Apparence → Thèmes.
+   Toute modification du thème dans le dépôt est visible aussitôt sur `http://divastore.local`. Activer le thème dans WP Admin → Apparence → Thèmes.
 
 4. **La session Claude Code**, sur le Mac, dans le dossier du dépôt : depuis l'app Claude Desktop (session locale), ou :
 
@@ -61,7 +61,7 @@ Prérequis : [Local](https://localwp.com), Git, Node ≥ 20.18, Python 3, et le 
 ## Travailler en local et sur GitHub
 
 - **Session locale (Mac)** : elle voit le site Local, le thème et les fichiers ; c'est là que se font la maquette, l'atelier, les tests et la recette.
-- **Session cloud (claude.ai/code)** : elle travaille sur le code du dépôt, mais **ne voit pas `imma-shop.local`** : rien n'y est testé sur le vrai site.
+- **Session cloud (claude.ai/code)** : elle travaille sur le code du dépôt, mais **ne voit pas `divastore.local`** : rien n'y est testé sur le vrai site.
 - **Une seule session à la fois par branche.** Chaque chantier a sa branche ; avant de reprendre le travail ailleurs :
 
   ```bash
